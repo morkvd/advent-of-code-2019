@@ -58,7 +58,7 @@
       "error"))
   
 
-;;(execute-program (initialize-memory program) 0) ;; answers 3716293
+;;(execute-program (initialize-memory program) 0) ;; star 1: answers 3716293
 
 
 (define (try-noun-verb memory noun verb)
@@ -72,10 +72,22 @@
           verb)])
     (execute-program current-attempt 0)))
 
-(define (try)
-  (for* ([i (build-list (length (initialize-memory program)) values)]
-         [j (build-list (length (initialize-memory program)) values)])
-    (if (= 19690720 (caadr (gravity-assist-attempt program i j)))
-        (display (list i j (gravity-assist-attempt program i j)))
-        nill)))
-(try)
+
+(define possible-values (build-list (length (initialize-memory program)) values))
+
+(define (compute-right-settings is js program)
+  (if (= 19690720
+         (caadr (gravity-assist-attempt
+                 program (car is) (list-ref js 0))))
+      (list (car is) (car js))
+      (cond [(and (empty? (cdr js))
+                  (empty? (cdr is)))
+             (list is js)]
+            [(empty? (cdr is))
+             (compute-right-settings possible-values (cdr js) program)]
+            [else
+             (compute-right-settings (cdr is) js program)])))
+
+(compute-right-settings possible-values possible-values program)
+
+;; star 2 : noun 64 & word 29 result in memory[0] == 19690720
