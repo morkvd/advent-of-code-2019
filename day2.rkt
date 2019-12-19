@@ -58,7 +58,7 @@
       "error"))
   
 
-;;(execute-program (initialize-memory program) 0) ;; star 1: answers 3716293
+(execute-program (initialize-memory program) 0) ;; star 1: answers 3716293
 
 
 (define (try-noun-verb memory noun verb)
